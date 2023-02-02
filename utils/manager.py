@@ -22,11 +22,14 @@ class Manager:
     def get(self, pk: int):
         return self.db.get(self.model, pk)
 
-    def create(self, payload: dict):
-        instance = self.model(**payload)
+    def __save(self, instance):
         self.db.add(instance)
         self.db.commit()
         self.db.refresh(instance)
+
+    def create(self, payload: dict):
+        instance = self.model(**payload)
+        self.__save(instance)
         return instance
 
     def filter(self, options: dict):
@@ -40,9 +43,7 @@ class Manager:
         for k, v in payload.items():
             if hasattr(instance, k):
                 setattr(instance, k, v)
-        self.db.add(instance)
-        self.db.commit()
-        self.db.refresh(instance)
+        self.__save(instance)
         return instance
 
     def delete(self, pk: int):
