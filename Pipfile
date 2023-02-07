@@ -9,6 +9,7 @@ sqlalchemy = "*"
 alembic = "*"
 psycopg2 = "*"
 passlib = {extras = ["bcrypt"], version = "*"}
+pytest = "*"
 
 [dev-packages]
 
